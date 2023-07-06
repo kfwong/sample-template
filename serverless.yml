@@ -1,0 +1,25 @@
+service: sample-template
+frameworkVersion: '3'
+
+plugins:
+    - serverless-esbuild
+
+provider:
+    name: aws
+    runtime: nodejs18.x
+    region: ap-southeast-1
+    apiName: sample-template-api
+
+package:
+    individually: true
+
+resources:
+    - ${file(./infra/api-gateway.yml)}
+    - ${file(./infra/dynamodb.yml)}
+    - ${file(./infra/iam-role.yml)}
+
+functions:
+    - ${file(./lambda/authorizer/config.yml)}
+    - ${file(./lambda/hello/config.yml)}
+    - ${file(./lambda/world/config.yml)}
+    - ${file(./lambda/bacon/config.yml)}

@@ -1,0 +1,23 @@
+{
+    "env": {
+        "node": true,
+        "es6": true,
+        "jest": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "prettier"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 13,
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true
+        }
+    },
+    "rules": {
+        "no-useless-catch": 0
+    }
+}

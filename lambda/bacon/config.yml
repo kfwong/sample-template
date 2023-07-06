@@ -1,0 +1,7 @@
+bacon:
+    handler: lambda/bacon/handler.main
+    description: Bacon lambda
+    memorySize: 2048
+    timeout: 30
+    environment:
+        NAME: 'bacon'

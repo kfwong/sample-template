@@ -1,0 +1,16 @@
+hello:
+    handler: lambda/hello/handler.main
+    description: Hello lambda
+    memorySize: 2048
+    timeout: 30
+    events:
+        - http:
+              path: /hello
+              method: GET
+              authorizer:
+                  type: request
+                  name: authorizer
+                  identitySource: method.request.header.Authorization
+                  resultTtlInSeconds: 600
+    environment:
+        NAME: 'hello'

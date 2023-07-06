@@ -1,0 +1,7 @@
+authorizer:
+    handler: lambda/authorizer/handler.main
+    description: Authorizer lambda
+    memorySize: 2048
+    timeout: 30
+    environment:
+        NAME: 'authorizer'

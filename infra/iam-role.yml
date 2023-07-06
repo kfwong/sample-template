@@ -1,0 +1,30 @@
+Resources:
+    LambdaExecutionRole:
+        Type: AWS::IAM::Role
+        Properties:
+            RoleName: LambdaExecutionRole
+            AssumeRolePolicyDocument:
+                Version: '2012-10-17'
+                Statement:
+                    - Action:
+                          - sts:AssumeRole
+                      Effect: Allow
+                      Principal:
+                          Service:
+                              - lambda.amazonaws.com
+            Policies:
+                - PolicyName: LambdaExecutionPolicy
+                  PolicyDocument:
+                      Version: '2012-10-17'
+                      Statement:
+                          - Effect: Allow
+                            Action:
+                                - 'logs:CreateLogStream'
+                                - 'logs:CreateLogGroup'
+                                - 'logs:TagResource'
+                                - 'logs:PutLogEvents'
+                                - 'dynamodb:GetItem'
+                                - 'dynamodb:PutItem'
+                                - 'dynamodb:Query'
+                                - 'lambda:InvokeFunction'
+                            Resource: '*'

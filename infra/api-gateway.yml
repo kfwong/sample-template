@@ -1,0 +1,10 @@
+Resources:
+  BadRequestBody:
+    Type: AWS::ApiGateway::GatewayResponse
+    Properties:
+      ResponseTemplates:
+        "application/json": '{ "message": "$util.toJson($context.error.validationErrorString)" }'
+      ResponseType: "BAD_REQUEST_BODY"
+      StatusCode: "400"
+      RestApiId:
+        Ref: ApiGatewayRestApi

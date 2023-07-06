@@ -1,0 +1,12 @@
+# package directories
+node_modules
+.esbuild
+
+# Serverless directories
+.serverless
+
+# others
+.idea/
+.eslintcache
+coverage/
+test-results/
