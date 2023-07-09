@@ -6,6 +6,7 @@ node_modules
 .serverless
 
 # others
+.DS_Store
 .idea/
 .eslintcache
 coverage/
