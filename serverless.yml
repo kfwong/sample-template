@@ -9,6 +9,9 @@ provider:
     runtime: nodejs18.x
     region: ap-southeast-1
     apiName: sample-template-api
+    environment:
+        STAGE: ${opt:stage}
+        PROJECT_NAME: 'sample-template'
 
 package:
     individually: true

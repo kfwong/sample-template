@@ -13,6 +13,7 @@
         ]
     },
     "dependencies": {
+        "@middy/cloudwatch-metrics": "^4.5.5",
         "@middy/core": "^4.5.5",
         "@middy/http-header-normalizer": "^4.5.5",
         "@middy/http-json-body-parser": "^4.5.5",

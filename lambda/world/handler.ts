@@ -10,9 +10,12 @@ import SampleTemplateTableRepository, {
 import { DynamoDBClientConfig } from '@aws-sdk/client-dynamodb';
 import { InvokeCommand, LambdaClient, LogType } from '@aws-sdk/client-lambda';
 
+import cloudwatchMetrics, { Context } from '@middy/cloudwatch-metrics';
+import { Unit } from 'aws-embedded-metrics';
+
 let repo: SampleTemplateTableRepository;
 
-const lambda: APIGatewayProxyHandler = async (event, context) => {
+const lambda: APIGatewayProxyHandler = async (event, context: Context) => {
     console.log(event);
     console.log(context);
 
@@ -27,9 +30,7 @@ const lambda: APIGatewayProxyHandler = async (event, context) => {
 
     await Promise.all(payload.map((entry) => repo.create(entry)));
 
-    const invokeResult = await invokeHello();
-
-    console.log(invokeResult);
+    context.metrics.putMetric('REQUEST_PROCESSED', 1, Unit.Count);
 
     return {
         statusCode: 200,
@@ -39,21 +40,32 @@ const lambda: APIGatewayProxyHandler = async (event, context) => {
     };
 };
 
-const invokeHello = async () => {
-    const client = new LambdaClient({ region: 'ap-southeast-1' });
-    const command = new InvokeCommand({
-        FunctionName: 'sample-template-dev-bacon',
-        Payload: JSON.stringify({}),
-        LogType: LogType.Tail,
-    });
-
-    const { Payload, LogResult } = await client.send(command);
-    const result = Buffer.from(Payload as never).toString();
-    const logs = Buffer.from(LogResult as never, 'base64').toString();
-    return { logs, result };
-};
+// const invokeHello = async () => {
+//     const client = new LambdaClient({region: 'ap-southeast-1'});
+//     const command = new InvokeCommand({
+//         FunctionName: 'sample-template-dev-bacon',
+//         Payload: JSON.stringify({}),
+//         LogType: LogType.Tail,
+//     });
+//
+//     const {Payload, LogResult} = await client.send(command);
+//     const result = Buffer.from(Payload as never).toString();
+//     const logs = Buffer.from(LogResult as never, 'base64').toString();
+//     return {logs, result};
+// };
 
 export const main = middy(lambda)
+    .use(
+        cloudwatchMetrics({
+            namespace: process.env.PROJECT_NAME,
+        }),
+    )
+    .before(async (request) => {
+        request.context.metrics.setDimensions({
+            Stage: <string>process.env.STAGE,
+            ServiceName: request.context.functionName,
+        });
+    })
     .use(httpHeaderNormalizer())
     .use(jsonBodyParser())
     .use(httpSecurityHeaders())
