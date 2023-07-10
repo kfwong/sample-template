@@ -1,4 +1,5 @@
 hello:
+    name: ${self:service}-hello
     handler: lambda/hello/handler.main
     description: Hello lambda
     memorySize: 2048

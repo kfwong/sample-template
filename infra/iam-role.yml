@@ -2,7 +2,7 @@ Resources:
     LambdaExecutionRole:
         Type: AWS::IAM::Role
         Properties:
-            RoleName: LambdaExecutionRole
+            RoleName: ${self:service}-lambda-execution-role
             AssumeRolePolicyDocument:
                 Version: '2012-10-17'
                 Statement:
@@ -13,7 +13,7 @@ Resources:
                           Service:
                               - lambda.amazonaws.com
             Policies:
-                - PolicyName: LambdaExecutionPolicy
+                - PolicyName: ${self:service}-lambda-execution-policy
                   PolicyDocument:
                       Version: '2012-10-17'
                       Statement:

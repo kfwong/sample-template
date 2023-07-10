@@ -2,7 +2,7 @@ Resources:
     SampleTemplateTable:
         Type: 'AWS::DynamoDB::Table'
         Properties:
-            TableName: 'sample-template-table'
+            TableName: ${self:service}-table
             AttributeDefinitions:
                 - AttributeName: id
                   AttributeType: S

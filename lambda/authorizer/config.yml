@@ -1,4 +1,5 @@
 authorizer:
+    name: ${self:service}-authorizer
     handler: lambda/authorizer/handler.main
     description: Authorizer lambda
     memorySize: 2048

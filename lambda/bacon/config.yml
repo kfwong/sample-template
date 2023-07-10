@@ -1,4 +1,5 @@
 bacon:
+    name: ${self:service}-bacon
     handler: lambda/bacon/handler.main
     description: Bacon lambda
     memorySize: 2048

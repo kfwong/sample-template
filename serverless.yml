@@ -1,20 +1,35 @@
-service: sample-template
+service: sample-template-${opt:stage}
 frameworkVersion: '3'
 
 plugins:
     - serverless-esbuild
 
+custom:
+    esbuild:
+        plugins: esbuild.js
+        exclude:
+            - '*'
+
 provider:
     name: aws
     runtime: nodejs18.x
     region: ap-southeast-1
-    apiName: sample-template-api
+    apiName: ${self:service}-api
+    stackName: ${self:service}
     environment:
         STAGE: ${opt:stage}
         PROJECT_NAME: 'sample-template'
 
 package:
     individually: true
+
+layers:
+    NpmDependencies:
+        path: ./lambda-layer/npm-dependencies
+        name: ${self:service}-npm-dependencies
+        retain: false
+        compatibleRuntimes:
+            - nodejs18.x
 
 resources:
     - ${file(./infra/api-gateway.yml)}

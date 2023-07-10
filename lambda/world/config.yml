@@ -1,9 +1,12 @@
 world:
+    name: ${self:service}-world
     handler: lambda/world/handler.main
     description: World lambda
     memorySize: 2048
     timeout: 30
     role: LambdaExecutionRole
+    layers:
+        - !Ref NpmDependenciesLambdaLayer
     events:
         - http:
               path: /world
@@ -18,4 +21,4 @@ world:
                       application/json:
                           schema: ${file(./lambda/world/schema.json)}
     environment:
-        SAMPLE_TEMPLATE_TABLE_NAME: 'sample-template-table'
+        SAMPLE_TEMPLATE_TABLE_NAME: ${self:service}-table
